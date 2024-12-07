@@ -7,12 +7,12 @@ from PyQt6.QtGui import QPainter, QColor
 from PyQt6.QtCore import QPoint
 
 
-class YellowCircle(QMainWindow):
+class CircleRandomColor(QMainWindow):
 
     def __init__(self) -> None:
 
         super().__init__()
-        uic.loadUi('UI.ui', self)
+        uic.loadUi('UI.ui', self)  # Я бы подключил ui файл, как класс python, но у меня нет pyuic6 :(
         self.ready = False
         self.initUI()
 
@@ -35,14 +35,18 @@ class YellowCircle(QMainWindow):
 
             return None
 
+        color = QColor(randint(0, 255), randint(0, 255), randint(0, 255))
         x_coord = randint(0, 500)
         y_coord = randint(0, 500)
         radius = randint(0, 50)
 
-        qp = QPainter(self)
+        qp = QPainter()
 
-        qp.setBrush(QColor(255, 255, 0))
+        qp.begin(self)
+        qp.setBrush(color)
         qp.drawEllipse(QPoint(x_coord, y_coord), radius, radius)
+
+        qp.end()
 
         self.ready = False
 
@@ -50,6 +54,6 @@ class YellowCircle(QMainWindow):
 if __name__ == '__main__':
 
     app = QApplication(argv)
-    circle = YellowCircle()
+    circle = CircleRandomColor()
     circle.show()
     exit(app.exec())
